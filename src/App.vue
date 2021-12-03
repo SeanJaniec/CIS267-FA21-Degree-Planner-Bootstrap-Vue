@@ -17,65 +17,7 @@
               <b-tab title="LAC" active>
                 <div id="lac">
                   <div class="my-4 text-left" id="lac-reqs">
-                    <div class="card my-2">
-                      <div class="card-body">
-                        <div class="row">
-                          <h5 class="col-9">
-                            <b>Life of Christ</b>
-                          </h5>
-                          <p class="col-3 text-right">2 hours</p>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-8">
-                            <p class="card-subtitle">BIB 121</p>
-                          </div>
-                          <div class="col-4 text-right">
-                            <span class="text-muted">Fall</span>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <b-form-select
-                            v-model="selected"
-                            :options="options"
-                          ></b-form-select>
-
-                          <b-button
-                            block
-                            variant="outline-secondary"
-                            class="my-2"
-                            >Add</b-button
-                          >
-                        </div>
-
-                        <div class="row">
-                          <div class="col">
-                            <a
-                              href="#bib121"
-                              class="card-link fw-light"
-                              v-b-toggle="bib121"
-                              >Course description ›</a
-                            >
-                          </div>
-                        </div>
-
-                        <b-collapse
-                          class="course-description collapse card-text"
-                          id="bib121"
-                        >
-                          <p class="text-muted card-text">
-                            A thorough textual study of the life of Jesus the
-                            Christ. Emphasis is given to his virgin birth, his
-                            message and ministry, his crucifixion, his
-                            resurrection, and his ascension, all leading to a
-                            greater awareness of his greatness as the Son of God
-                            and Savior of the world. Moral, doctrinal,
-                            historical, and practical aspects of the life of
-                            Christ are also emphasized. (Text course.)
-                          </p>
-                        </b-collapse>
-                      </div>
-                    </div>
+                    <CourseInfoCard :course=c  v-for="c in lacCourses" :key="c['Course ID']" />
                   </div>
                 </div>
               </b-tab>
@@ -261,11 +203,17 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
+import CourseInfoCard from './components/CourseInfoCard.vue'
+import lacCoursesFromFile from './lac.json'
 
 export default {
   name: "App",
   components: {
+    CourseInfoCard
     //HelloWorld
+  },
+  mounted() {
+
   },
   data() {
     return {
@@ -287,6 +235,9 @@ export default {
         { id: "CIS171", name: "Computer Programming I" },
         { id: "CIS211", name: "Intro to Web Design" },
       ],
+
+      lacCourses: lacCoursesFromFile,
+      cisCourses: [],
       options: [
         { value: null, text: "Please select an option" },
         { value: "fall2019", text: "Fall 2019" },
