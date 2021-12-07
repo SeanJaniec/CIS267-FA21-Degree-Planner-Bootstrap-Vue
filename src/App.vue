@@ -89,20 +89,36 @@ export default {
 
     //HelloWorld
   },
-  mounted() {
-
-  },
   methods: {
         options(){
 
         },
-        add(course){
-          this.schedules.foreach((semester) => {
-              // if(semester.id == selected)
-              // {
-                semester.classes.push(course);
-              // }
-          })
+        add(course, selected) {
+          if(selected == "fall2020" && !this.schedules[0].classes.includes(course)) {
+            this.schedules[0].classes.push(course);
+          }
+          if(selected == "spring2021" && !this.schedules[1].classes.includes(course)) {
+            this.schedules[1].classes.push(course);
+          }
+          if(selected == "fall2021" && !this.schedules[2].classes.includes(course)) {
+            this.schedules[2].classes.push(course);
+          }
+          if(selected == "spring2022" && !this.schedules[3].classes.includes(course)) {
+            this.schedules[3].classes.push(course);
+          }
+          if(selected == "fall2022" && !this.schedules[4].classes.includes(course)) {
+            this.schedules[4].classes.push(course);
+          }
+          if(selected == "spring2023" && !this.schedules[5].classes.includes(course)) {
+            this.schedules[5].classes.push(course);
+          }
+          if(selected == "fall2023" && !this.schedules[6].classes.includes(course)) {
+            this.schedules[6].classes.push(course);
+          }
+          if(selected == "spring2024" && !this.schedules[7].classes.includes(course)) {
+            this.schedules[7].classes.push(course);
+          }
+          
         }
       },
   data() {

@@ -31,14 +31,14 @@
                       v-for="classes in schedule.classes"
                         v-bind:key="classes.id">
                         
-                        <td>id</td>
+                        <td>{{ classes["Course ID"] }}</td>
                         <td>
                           <span class="fw-bold">  </span>
                         </td>
                         <td>
-                          <span class="badge bg-primary"> LAC(category) </span>
+                          <span class="badge bg-primary"> {{ classes["Category"] }} </span>
                         </td>
-                        <td>2 credit hours</td>
+                        <td>{{ classes["Credit Hours"] }}</td>
                       </tr>
                       <!-- <tr>
                         <td>CIS 171</td>

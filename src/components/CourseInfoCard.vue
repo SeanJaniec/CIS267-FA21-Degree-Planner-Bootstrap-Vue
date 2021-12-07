@@ -65,11 +65,8 @@ export default {
     }
   },
   methods: {
-    convertID(courseID) {
-      return courseID.replace(" ", "").replace("/", "-").toLowerCase();
-    },
     add() {
-      this.$emit("add", this.course);
+      this.$emit("add", this.course, this.selected);
     }
   },
   computed: {
