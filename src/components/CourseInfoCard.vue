@@ -5,26 +5,26 @@
         <h5 class="col-9">
           <b>{{ course["Course Name"] }}</b>
         </h5>
-        <p class="col-3 text-right">2 hours</p>
+        <p class="col-3 text-right">{{ course["Credit Hours"] }}</p>
       </div>
 
       <div class="row">
         <div class="col-8">
-          <p class="card-subtitle">BIB 121</p>
+          <p class="card-subtitle">{{ course["Course ID"] }}</p>
         </div>
         <div class="col-4 text-right">
-          <span class="text-muted">Fall</span>
+          <span class="text-muted">{{ course["Semester Offered"] }}</span>
         </div>
       </div>
       <div class="row">
         <b-form-select v-model="selected" :options="options"></b-form-select>
 
-        <b-button block variant="outline-secondary" class="my-2">Add</b-button>
+        <b-button @click="add" block variant="outline-secondary" class="my-2">Add</b-button>
       </div>
 
       <div class="row">
         <div class="col">
-          <a href="#bib121" class="card-link fw-light" v-b-toggle:shortID
+          <a :href="'#' + shortID" class="card-link fw-light" v-b-toggle="shortID"
             >Course description ›</a
           >
         </div>
@@ -32,12 +32,7 @@
 
       <b-collapse class="course-description collapse card-text" :id="shortID">
         <p class="text-muted card-text">
-          A thorough textual study of the life of Jesus the Christ. Emphasis is
-          given to his virgin birth, his message and ministry, his crucifixion,
-          his resurrection, and his ascension, all leading to a greater
-          awareness of his greatness as the Son of God and Savior of the world.
-          Moral, doctrinal, historical, and practical aspects of the life of
-          Christ are also emphasized. (Text course.)
+          {{ course["Course Description"] }}
         </p>
       </b-collapse>
     </div>
@@ -50,10 +45,32 @@ export default {
   props: {
     course: Object,
   },
+  data() {
+    return{
+      options: [
+        { value: null, text: "Please select an option" },
+        
+        { value: "fall2020", text: "Fall 2020" },
+        { value: "spring2021", text: "Spring 2021" },
+        { value: "fall2021", text: "Fall 2021" },
+        { value: "spring2022", text: "Spring 2022" },
+        { value: "fall2022", text: "Fall 2022" },
+        { value: "spring2023", text: "Spring 2023" },
+        { value: "fall2023", text: "Fall 2023" },
+        { value: "spring2019", text: "Spring 2023" },
+        { value: { C: "3PO" }, text: "This is an option with object value" },
+        { value: "d", text: "This one is disabled", disabled: true },
+      ],
+      selected: null
+    }
+  },
   methods: {
     convertID(courseID) {
       return courseID.replace(" ", "").replace("/", "-").toLowerCase();
     },
+    add() {
+      this.$emit("add", this.course);
+    }
   },
   computed: {
     shortID() {

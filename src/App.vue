@@ -17,59 +17,15 @@
               <b-tab title="LAC" active>
                 <div id="lac">
                   <div class="my-4 text-left" id="lac-reqs">
-                    <CourseInfoCard :course=c  v-for="c in lacCourses" :key="c['Course ID']" />
+                    <CourseInfoCard :options="options" @add="add"  :course=c  v-for="c in lacCourses" :key="c['Course ID']" />
                   </div>
                 </div>
               </b-tab>
 
               <b-tab title="CS">
-                <div id="lac">
-                  <div class="my-4 text-left" id="lac-reqs">
-                    <div class="card my-2">
-                      <div class="card-body">
-                        <div class="row">
-                          <h5 class="col-9">
-                            <b>Computer Programming I</b>
-                          </h5>
-                          <p class="col-3 text-right">2 hours</p>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-8">
-                            <p class="card-subtitle">BIB 121</p>
-                          </div>
-                          <div class="col-4 text-right">
-                            <span class="text-muted">Fall</span>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col">
-                            <a
-                              href="#bib121"
-                              class="card-link fw-light"
-                              v-b-toggle="bib121"
-                              >Course description ›</a
-                            >
-                          </div>
-                        </div>
-
-                        <b-collapse
-                          class="course-description collapse card-text"
-                          id="bib121"
-                        >
-                          <p class="text-muted card-text">
-                            A thorough textual study of the life of Jesus the
-                            Christ. Emphasis is given to his virgin birth, his
-                            message and ministry, his crucifixion, his
-                            resurrection, and his ascension, all leading to a
-                            greater awareness of his greatness as the Son of God
-                            and Savior of the world. Moral, doctrinal,
-                            historical, and practical aspects of the life of
-                            Christ are also emphasized. (Text course.)
-                          </p>
-                        </b-collapse>
-                      </div>
-                    </div>
+                <div id="cssd">
+                  <div class="my-4 text-left" id="cssd-reqs">
+                    <CourseInfoCard :options="options" @add="add"  :course=d  v-for="d in cssdCourses" :key="d['Course ID']" />
                   </div>
                 </div>
               </b-tab>
@@ -77,92 +33,8 @@
           </div>
 
           <!-- Semester Schedules -->
-          <div class="col-lg-6 semester-schedules">
-            <h3>Semester Schedules</h3>
-
-            <div
-              v-for="schedule in schedules"
-              v-bind:key="schedule.id"
-              class="accordion my-4"
-              id="schedule.id"
-            >
-              <div class="accordion-item">
-                <h2
-                  class="accordion-header"
-                  id="fall2019heading"
-                  v-b-toggle:[schedule.collapseId]
-                >
-                  <div class="">
-                    <h4 class="my-0">{{ schedule.name }}</h4>
-                  </div>
-                </h2>
-                <b-collapse :id="schedule.collapseId">
-                  <div class="accordion-body">
-                    <table class="table table-hover">
-                      <thead>
-                        <th>Course</th>
-                        <td></td>
-                        <td></td>
-                        <th>Credits</th>
-                      </thead>
-                      <tr>
-                        <td>BIB 121</td>
-                        <td>
-                          <span class="fw-bold"> The Life of Christ </span>
-                        </td>
-                        <td>
-                          <span class="badge bg-primary"> LAC </span>
-                        </td>
-                        <td>2</td>
-                      </tr>
-                      <tr>
-                        <td>CIS 171</td>
-                        <td>
-                          <span class="fw-bold">Computer Programming I</span>
-                        </td>
-                        <td>
-                          <span class="badge bg-secondary"> CS </span>
-                        </td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>COM 140</td>
-                        <td>
-                          <span class="fw-bold">Speech</span>
-                        </td>
-                        <td>
-                          <span class="badge bg-primary"> LAC </span>
-                        </td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>CYB 101</td>
-                        <td>
-                          <span class="fw-bold">Intro to Cybersecurity</span>
-                        </td>
-                        <td></td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>MAT 120</td>
-                        <td>
-                          <span class="fw-bold">Precalculus</span>
-                        </td>
-                        <td></td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="fw-bold">14</td>
-                      </tr>
-                    </table>
-                  </div>
-                </b-collapse>
-              </div>
-            </div>
-          </div>
+          <SemesterSchedule :schedules="schedules"/>
+          
 
           <!-- Table of Contents Sidebar -->
           <div class="col-lg-2 position-sticky top-0 h-100 ps-5 toc">
@@ -204,47 +76,97 @@
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
 import CourseInfoCard from './components/CourseInfoCard.vue'
+import SemesterSchedule from './components/SemesterSchedule.vue'
 import lacCoursesFromFile from './lac.json'
+import cssdCoursesFromFile from './cssd.json'
 
 export default {
   name: "App",
   components: {
-    CourseInfoCard
+    CourseInfoCard,
+    SemesterSchedule,
+
+
     //HelloWorld
   },
   mounted() {
 
   },
+  methods: {
+        options(){
+
+        },
+        add(course){
+          this.schedules.foreach((semester) => {
+              // if(semester.id == selected)
+              // {
+                semester.classes.push(course);
+              // }
+          })
+        }
+      },
   data() {
     return {
+      
       schedules: [
         {
-          name: "Fall 2019",
-          id: "fall2019",
-          collapseId: "fall2019schedule",
+          name: "Fall 2020",
+          id: "fall2020",
+          collapseId: "fall2020schedule",
           classes: [],
         },
         {
-          name: "Spring 2020",
-          id: "spring2020",
-          collapseId: "spring2020schedule",
+          name: "Spring 2021",
+          id: "spring2021",
+          collapseId: "spring2021schedule",
+          classes: [],
+        },
+        {
+          name: "Fall 2021",
+          id: "fall2021",
+          collapseId: "fall2021schedule",
+          classes: [],
+        },
+        {
+          name: "Spring 2022",
+          id: "spring2022",
+          collapseId: "spring2022schedule",
+          classes: [],
+        },
+        {
+          name: "Fall 2022",
+          id: "fall2022",
+          collapseId: "fall2022schedule",
+          classes: [],
+        },
+        {
+          name: "Spring 2023",
+          id: "spring2023",
+          collapseId: "spring2023schedule",
+          classes: [],
+        },
+        {
+          name: "Fall 2023",
+          id: "fall2023",
+          collapseId: "fall2023schedule",
+          classes: [],
+        },
+        {
+          name: "Spring 2024",
+          id: "spring2024",
+          collapseId: "spring2024schedule",
           classes: [],
         },
       ],
+
       courses: [
         { id: "CIS171", name: "Computer Programming I" },
         { id: "CIS211", name: "Intro to Web Design" },
       ],
 
       lacCourses: lacCoursesFromFile,
-      cisCourses: [],
-      options: [
-        { value: null, text: "Please select an option" },
-        { value: "fall2019", text: "Fall 2019" },
-        { value: "spring2020", text: "Spring 2020" },
-        { value: { C: "3PO" }, text: "This is an option with object value" },
-        { value: "d", text: "This one is disabled", disabled: true },
-      ],
+      cssdCourses: cssdCoursesFromFile,
+      
       selected: null,
     };
   },
